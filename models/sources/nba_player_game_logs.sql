@@ -40,7 +40,7 @@ renamed AS (
         plus_minus AS plus_minus,
         season,
         game_type,
-        timestamp_column -- keep the generated timestamp
+        loaded_at_ddtm -- keep the generated timestamp
     FROM 
         source
 )

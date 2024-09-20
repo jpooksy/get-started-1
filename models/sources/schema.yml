@@ -4,9 +4,18 @@ models:
     tests:
       - elementary.freshness_anomalies:
           timestamp_column: "loaded_at_dttm"
-          # optional - use tags to run elementary tests on a dedicated run
-          tags: ["elementary"]
+          time_bucket: 
+            period: day
+            count: 1
+          detection_period: 
+            period: day
+            count: 14
+          training_period: 
+            period: day
+            count: 60
+          anomaly_sensitivity: 3
+          detection_delay: 
+            period: day 
+            count: 1
           config:
-            # optional - change severity
             severity: warn
-            
