@@ -1,14 +1,12 @@
 version: 2
 models:
-  - name: nba_player_info
-    columns:
-      - name: player_id
-        tests:
-          - unique
-          - not_null
-      - name: first_name
-      - name: last_name
-      - name: team_name
-      - name: position
-      - name: height
-      - name: weight
+  - name: nba_player_game_logs
+    tests:
+      - elementary.freshness_anomalies:
+          timestamp_column: "loaded_at_dttm"
+          # optional - use tags to run elementary tests on a dedicated run
+          tags: ["elementary"]
+          config:
+            # optional - change severity
+            severity: warn
+            
