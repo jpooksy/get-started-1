@@ -1,68 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_columns
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as unique_id
+    merge into NBA.dbt_parker_elementary.dbt_columns as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_columns__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.unique_id = DBT_INTERNAL_DEST.unique_id
+            )
 
-,
-                
-        cast('dummy_string' as varchar) as parent_unique_id
+    
+    when matched then update set
+        "UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","PARENT_UNIQUE_ID" = DBT_INTERNAL_SOURCE."PARENT_UNIQUE_ID","NAME" = DBT_INTERNAL_SOURCE."NAME","DATA_TYPE" = DBT_INTERNAL_SOURCE."DATA_TYPE","TAGS" = DBT_INTERNAL_SOURCE."TAGS","META" = DBT_INTERNAL_SOURCE."META","DATABASE_NAME" = DBT_INTERNAL_SOURCE."DATABASE_NAME","SCHEMA_NAME" = DBT_INTERNAL_SOURCE."SCHEMA_NAME","TABLE_NAME" = DBT_INTERNAL_SOURCE."TABLE_NAME","DESCRIPTION" = DBT_INTERNAL_SOURCE."DESCRIPTION","RESOURCE_TYPE" = DBT_INTERNAL_SOURCE."RESOURCE_TYPE","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","METADATA_HASH" = DBT_INTERNAL_SOURCE."METADATA_HASH"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as name
+    when not matched then insert
+        ("UNIQUE_ID", "PARENT_UNIQUE_ID", "NAME", "DATA_TYPE", "TAGS", "META", "DATABASE_NAME", "SCHEMA_NAME", "TABLE_NAME", "DESCRIPTION", "RESOURCE_TYPE", "GENERATED_AT", "METADATA_HASH")
+    values
+        ("UNIQUE_ID", "PARENT_UNIQUE_ID", "NAME", "DATA_TYPE", "TAGS", "META", "DATABASE_NAME", "SCHEMA_NAME", "TABLE_NAME", "DESCRIPTION", "RESOURCE_TYPE", "GENERATED_AT", "METADATA_HASH")
 
-,
-                
-        cast('dummy_string' as varchar) as data_type
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as meta
-
-,
-                
-        cast('dummy_string' as varchar) as database_name
-
-,
-                
-        cast('dummy_string' as varchar) as schema_name
-
-,
-                
-        cast('dummy_string' as varchar) as table_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as description
-
-,
-                
-        cast('dummy_string' as varchar) as resource_type
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                
-        cast('dummy_string' as varchar) as metadata_hash
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;

@@ -1,104 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_sources
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as unique_id
+    merge into NBA.dbt_parker_elementary.dbt_sources as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_sources__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.unique_id = DBT_INTERNAL_DEST.unique_id
+            )
 
-,
-                
-        cast('dummy_string' as varchar) as database_name
+    
+    when matched then update set
+        "UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","DATABASE_NAME" = DBT_INTERNAL_SOURCE."DATABASE_NAME","SCHEMA_NAME" = DBT_INTERNAL_SOURCE."SCHEMA_NAME","SOURCE_NAME" = DBT_INTERNAL_SOURCE."SOURCE_NAME","NAME" = DBT_INTERNAL_SOURCE."NAME","IDENTIFIER" = DBT_INTERNAL_SOURCE."IDENTIFIER","LOADED_AT_FIELD" = DBT_INTERNAL_SOURCE."LOADED_AT_FIELD","FRESHNESS_WARN_AFTER" = DBT_INTERNAL_SOURCE."FRESHNESS_WARN_AFTER","FRESHNESS_ERROR_AFTER" = DBT_INTERNAL_SOURCE."FRESHNESS_ERROR_AFTER","FRESHNESS_FILTER" = DBT_INTERNAL_SOURCE."FRESHNESS_FILTER","FRESHNESS_DESCRIPTION" = DBT_INTERNAL_SOURCE."FRESHNESS_DESCRIPTION","RELATION_NAME" = DBT_INTERNAL_SOURCE."RELATION_NAME","TAGS" = DBT_INTERNAL_SOURCE."TAGS","META" = DBT_INTERNAL_SOURCE."META","OWNER" = DBT_INTERNAL_SOURCE."OWNER","PACKAGE_NAME" = DBT_INTERNAL_SOURCE."PACKAGE_NAME","ORIGINAL_PATH" = DBT_INTERNAL_SOURCE."ORIGINAL_PATH","PATH" = DBT_INTERNAL_SOURCE."PATH","SOURCE_DESCRIPTION" = DBT_INTERNAL_SOURCE."SOURCE_DESCRIPTION","DESCRIPTION" = DBT_INTERNAL_SOURCE."DESCRIPTION","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","METADATA_HASH" = DBT_INTERNAL_SOURCE."METADATA_HASH"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as schema_name
+    when not matched then insert
+        ("UNIQUE_ID", "DATABASE_NAME", "SCHEMA_NAME", "SOURCE_NAME", "NAME", "IDENTIFIER", "LOADED_AT_FIELD", "FRESHNESS_WARN_AFTER", "FRESHNESS_ERROR_AFTER", "FRESHNESS_FILTER", "FRESHNESS_DESCRIPTION", "RELATION_NAME", "TAGS", "META", "OWNER", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "SOURCE_DESCRIPTION", "DESCRIPTION", "GENERATED_AT", "METADATA_HASH")
+    values
+        ("UNIQUE_ID", "DATABASE_NAME", "SCHEMA_NAME", "SOURCE_NAME", "NAME", "IDENTIFIER", "LOADED_AT_FIELD", "FRESHNESS_WARN_AFTER", "FRESHNESS_ERROR_AFTER", "FRESHNESS_FILTER", "FRESHNESS_DESCRIPTION", "RELATION_NAME", "TAGS", "META", "OWNER", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "SOURCE_DESCRIPTION", "DESCRIPTION", "GENERATED_AT", "METADATA_HASH")
 
-,
-                
-        cast('dummy_string' as varchar) as source_name
-
-,
-                
-        cast('dummy_string' as varchar) as name
-
-,
-                
-        cast('dummy_string' as varchar) as identifier
-
-,
-                
-        cast('dummy_string' as varchar) as loaded_at_field
-
-,
-                
-        cast('dummy_string' as varchar) as freshness_warn_after
-
-,
-                
-        cast('dummy_string' as varchar) as freshness_error_after
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as freshness_filter
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as freshness_description
-
-,
-                
-        cast('dummy_string' as varchar) as relation_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as meta
-
-,
-                
-        cast('dummy_string' as varchar) as owner
-
-,
-                
-        cast('dummy_string' as varchar) as package_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as original_path
-
-,
-                
-        cast('dummy_string' as varchar) as path
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as source_description
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as description
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                
-        cast('dummy_string' as varchar) as metadata_hash
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;

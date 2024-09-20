@@ -1,96 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_metrics
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as unique_id
+    merge into NBA.dbt_parker_elementary.dbt_metrics as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_metrics__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.unique_id = DBT_INTERNAL_DEST.unique_id
+            )
 
-,
-                
-        cast('dummy_string' as varchar) as name
+    
+    when matched then update set
+        "UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","NAME" = DBT_INTERNAL_SOURCE."NAME","LABEL" = DBT_INTERNAL_SOURCE."LABEL","MODEL" = DBT_INTERNAL_SOURCE."MODEL","TYPE" = DBT_INTERNAL_SOURCE."TYPE","SQL" = DBT_INTERNAL_SOURCE."SQL","TIMESTAMP" = DBT_INTERNAL_SOURCE."TIMESTAMP","FILTERS" = DBT_INTERNAL_SOURCE."FILTERS","TIME_GRAINS" = DBT_INTERNAL_SOURCE."TIME_GRAINS","DIMENSIONS" = DBT_INTERNAL_SOURCE."DIMENSIONS","DEPENDS_ON_MACROS" = DBT_INTERNAL_SOURCE."DEPENDS_ON_MACROS","DEPENDS_ON_NODES" = DBT_INTERNAL_SOURCE."DEPENDS_ON_NODES","DESCRIPTION" = DBT_INTERNAL_SOURCE."DESCRIPTION","TAGS" = DBT_INTERNAL_SOURCE."TAGS","META" = DBT_INTERNAL_SOURCE."META","PACKAGE_NAME" = DBT_INTERNAL_SOURCE."PACKAGE_NAME","ORIGINAL_PATH" = DBT_INTERNAL_SOURCE."ORIGINAL_PATH","PATH" = DBT_INTERNAL_SOURCE."PATH","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","METADATA_HASH" = DBT_INTERNAL_SOURCE."METADATA_HASH"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as label
+    when not matched then insert
+        ("UNIQUE_ID", "NAME", "LABEL", "MODEL", "TYPE", "SQL", "TIMESTAMP", "FILTERS", "TIME_GRAINS", "DIMENSIONS", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "DESCRIPTION", "TAGS", "META", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "GENERATED_AT", "METADATA_HASH")
+    values
+        ("UNIQUE_ID", "NAME", "LABEL", "MODEL", "TYPE", "SQL", "TIMESTAMP", "FILTERS", "TIME_GRAINS", "DIMENSIONS", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "DESCRIPTION", "TAGS", "META", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "GENERATED_AT", "METADATA_HASH")
 
-,
-                
-        cast('dummy_string' as varchar) as model
-
-,
-                
-        cast('dummy_string' as varchar) as type
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as sql
-
-,
-                
-        cast('dummy_string' as varchar) as timestamp
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as filters
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as time_grains
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as dimensions
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_macros
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_nodes
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as description
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as meta
-
-,
-                
-        cast('dummy_string' as varchar) as package_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as original_path
-
-,
-                
-        cast('dummy_string' as varchar) as path
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                
-        cast('dummy_string' as varchar) as metadata_hash
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;

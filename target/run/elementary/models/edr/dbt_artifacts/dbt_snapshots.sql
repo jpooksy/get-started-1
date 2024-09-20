@@ -1,92 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_snapshots
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as unique_id
+    merge into NBA.dbt_parker_elementary.dbt_snapshots as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_snapshots__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.unique_id = DBT_INTERNAL_DEST.unique_id
+            )
 
-,
-                
-        cast('dummy_string' as varchar) as alias
+    
+    when matched then update set
+        "UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","ALIAS" = DBT_INTERNAL_SOURCE."ALIAS","CHECKSUM" = DBT_INTERNAL_SOURCE."CHECKSUM","MATERIALIZATION" = DBT_INTERNAL_SOURCE."MATERIALIZATION","TAGS" = DBT_INTERNAL_SOURCE."TAGS","META" = DBT_INTERNAL_SOURCE."META","OWNER" = DBT_INTERNAL_SOURCE."OWNER","DATABASE_NAME" = DBT_INTERNAL_SOURCE."DATABASE_NAME","SCHEMA_NAME" = DBT_INTERNAL_SOURCE."SCHEMA_NAME","DEPENDS_ON_MACROS" = DBT_INTERNAL_SOURCE."DEPENDS_ON_MACROS","DEPENDS_ON_NODES" = DBT_INTERNAL_SOURCE."DEPENDS_ON_NODES","DESCRIPTION" = DBT_INTERNAL_SOURCE."DESCRIPTION","NAME" = DBT_INTERNAL_SOURCE."NAME","PACKAGE_NAME" = DBT_INTERNAL_SOURCE."PACKAGE_NAME","ORIGINAL_PATH" = DBT_INTERNAL_SOURCE."ORIGINAL_PATH","PATH" = DBT_INTERNAL_SOURCE."PATH","PATCH_PATH" = DBT_INTERNAL_SOURCE."PATCH_PATH","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","METADATA_HASH" = DBT_INTERNAL_SOURCE."METADATA_HASH"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as checksum
+    when not matched then insert
+        ("UNIQUE_ID", "ALIAS", "CHECKSUM", "MATERIALIZATION", "TAGS", "META", "OWNER", "DATABASE_NAME", "SCHEMA_NAME", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "DESCRIPTION", "NAME", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "PATCH_PATH", "GENERATED_AT", "METADATA_HASH")
+    values
+        ("UNIQUE_ID", "ALIAS", "CHECKSUM", "MATERIALIZATION", "TAGS", "META", "OWNER", "DATABASE_NAME", "SCHEMA_NAME", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "DESCRIPTION", "NAME", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "PATCH_PATH", "GENERATED_AT", "METADATA_HASH")
 
-,
-                
-        cast('dummy_string' as varchar) as materialization
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as meta
-
-,
-                
-        cast('dummy_string' as varchar) as owner
-
-,
-                
-        cast('dummy_string' as varchar) as database_name
-
-,
-                
-        cast('dummy_string' as varchar) as schema_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_macros
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_nodes
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as description
-
-,
-                
-        cast('dummy_string' as varchar) as name
-
-,
-                
-        cast('dummy_string' as varchar) as package_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as original_path
-
-,
-                
-        cast('dummy_string' as varchar) as path
-
-,
-                
-        cast('dummy_string' as varchar) as patch_path
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                
-        cast('dummy_string' as varchar) as metadata_hash
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;
