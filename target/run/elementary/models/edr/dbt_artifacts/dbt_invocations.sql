@@ -1,155 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_invocations
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as invocation_id
+    merge into NBA.dbt_parker_elementary.dbt_invocations as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_invocations__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.invocation_id = DBT_INTERNAL_DEST.invocation_id
+            )
 
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as job_id
+    
+    when matched then update set
+        "INVOCATION_ID" = DBT_INTERNAL_SOURCE."INVOCATION_ID","JOB_ID" = DBT_INTERNAL_SOURCE."JOB_ID","JOB_NAME" = DBT_INTERNAL_SOURCE."JOB_NAME","JOB_RUN_ID" = DBT_INTERNAL_SOURCE."JOB_RUN_ID","RUN_STARTED_AT" = DBT_INTERNAL_SOURCE."RUN_STARTED_AT","RUN_COMPLETED_AT" = DBT_INTERNAL_SOURCE."RUN_COMPLETED_AT","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","CREATED_AT" = DBT_INTERNAL_SOURCE."CREATED_AT","COMMAND" = DBT_INTERNAL_SOURCE."COMMAND","DBT_VERSION" = DBT_INTERNAL_SOURCE."DBT_VERSION","ELEMENTARY_VERSION" = DBT_INTERNAL_SOURCE."ELEMENTARY_VERSION","FULL_REFRESH" = DBT_INTERNAL_SOURCE."FULL_REFRESH","INVOCATION_VARS" = DBT_INTERNAL_SOURCE."INVOCATION_VARS","VARS" = DBT_INTERNAL_SOURCE."VARS","TARGET_NAME" = DBT_INTERNAL_SOURCE."TARGET_NAME","TARGET_DATABASE" = DBT_INTERNAL_SOURCE."TARGET_DATABASE","TARGET_SCHEMA" = DBT_INTERNAL_SOURCE."TARGET_SCHEMA","TARGET_PROFILE_NAME" = DBT_INTERNAL_SOURCE."TARGET_PROFILE_NAME","THREADS" = DBT_INTERNAL_SOURCE."THREADS","SELECTED" = DBT_INTERNAL_SOURCE."SELECTED","YAML_SELECTOR" = DBT_INTERNAL_SOURCE."YAML_SELECTOR","PROJECT_ID" = DBT_INTERNAL_SOURCE."PROJECT_ID","PROJECT_NAME" = DBT_INTERNAL_SOURCE."PROJECT_NAME","ENV" = DBT_INTERNAL_SOURCE."ENV","ENV_ID" = DBT_INTERNAL_SOURCE."ENV_ID","CAUSE_CATEGORY" = DBT_INTERNAL_SOURCE."CAUSE_CATEGORY","CAUSE" = DBT_INTERNAL_SOURCE."CAUSE","PULL_REQUEST_ID" = DBT_INTERNAL_SOURCE."PULL_REQUEST_ID","GIT_SHA" = DBT_INTERNAL_SOURCE."GIT_SHA","ORCHESTRATOR" = DBT_INTERNAL_SOURCE."ORCHESTRATOR","DBT_USER" = DBT_INTERNAL_SOURCE."DBT_USER","JOB_URL" = DBT_INTERNAL_SOURCE."JOB_URL","JOB_RUN_URL" = DBT_INTERNAL_SOURCE."JOB_RUN_URL","ACCOUNT_ID" = DBT_INTERNAL_SOURCE."ACCOUNT_ID","TARGET_ADAPTER_SPECIFIC_FIELDS" = DBT_INTERNAL_SOURCE."TARGET_ADAPTER_SPECIFIC_FIELDS"
+    
 
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as job_name
+    when not matched then insert
+        ("INVOCATION_ID", "JOB_ID", "JOB_NAME", "JOB_RUN_ID", "RUN_STARTED_AT", "RUN_COMPLETED_AT", "GENERATED_AT", "CREATED_AT", "COMMAND", "DBT_VERSION", "ELEMENTARY_VERSION", "FULL_REFRESH", "INVOCATION_VARS", "VARS", "TARGET_NAME", "TARGET_DATABASE", "TARGET_SCHEMA", "TARGET_PROFILE_NAME", "THREADS", "SELECTED", "YAML_SELECTOR", "PROJECT_ID", "PROJECT_NAME", "ENV", "ENV_ID", "CAUSE_CATEGORY", "CAUSE", "PULL_REQUEST_ID", "GIT_SHA", "ORCHESTRATOR", "DBT_USER", "JOB_URL", "JOB_RUN_URL", "ACCOUNT_ID", "TARGET_ADAPTER_SPECIFIC_FIELDS")
+    values
+        ("INVOCATION_ID", "JOB_ID", "JOB_NAME", "JOB_RUN_ID", "RUN_STARTED_AT", "RUN_COMPLETED_AT", "GENERATED_AT", "CREATED_AT", "COMMAND", "DBT_VERSION", "ELEMENTARY_VERSION", "FULL_REFRESH", "INVOCATION_VARS", "VARS", "TARGET_NAME", "TARGET_DATABASE", "TARGET_SCHEMA", "TARGET_PROFILE_NAME", "THREADS", "SELECTED", "YAML_SELECTOR", "PROJECT_ID", "PROJECT_NAME", "ENV", "ENV_ID", "CAUSE_CATEGORY", "CAUSE", "PULL_REQUEST_ID", "GIT_SHA", "ORCHESTRATOR", "DBT_USER", "JOB_URL", "JOB_RUN_URL", "ACCOUNT_ID", "TARGET_ADAPTER_SPECIFIC_FIELDS")
 
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as job_run_id
-
-,
-                
-        cast('dummy_string' as varchar) as run_started_at
-
-,
-                
-        cast('dummy_string' as varchar) as run_completed_at
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                cast('2091-02-17' as timestamp) as created_at
-
-,
-                
-        cast('dummy_string' as varchar) as command
-
-,
-                
-        cast('dummy_string' as varchar) as dbt_version
-
-,
-                
-        cast('dummy_string' as varchar) as elementary_version
-
-,
-                
-        cast (True as boolean) as full_refresh
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as invocation_vars
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as vars
-
-,
-                
-        cast('dummy_string' as varchar) as target_name
-
-,
-                
-        cast('dummy_string' as varchar) as target_database
-
-,
-                
-        cast('dummy_string' as varchar) as target_schema
-
-,
-                
-        cast('dummy_string' as varchar) as target_profile_name
-
-,
-                
-        cast(123456789 as integer) as threads
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as selected
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as yaml_selector
-
-,
-                
-        cast('dummy_string' as varchar) as project_id
-
-,
-                
-        cast('dummy_string' as varchar) as project_name
-
-,
-                
-        cast('dummy_string' as varchar) as env
-
-,
-                
-        cast('dummy_string' as varchar) as env_id
-
-,
-                
-        cast('dummy_string' as varchar) as cause_category
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as cause
-
-,
-                
-        cast('dummy_string' as varchar) as pull_request_id
-
-,
-                
-        cast('dummy_string' as varchar) as git_sha
-
-,
-                
-        cast('dummy_string' as varchar) as orchestrator
-
-,
-                
-        cast('dummy_string' as varchar) as dbt_user
-
-,
-                
-        cast('dummy_string' as varchar) as job_url
-
-,
-                
-        cast('dummy_string' as varchar) as job_run_url
-
-,
-                
-        cast('dummy_string' as varchar) as account_id
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as target_adapter_specific_fields
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;

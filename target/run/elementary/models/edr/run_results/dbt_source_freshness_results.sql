@@ -1,85 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace transient table NBA.dbt_parker_elementary.dbt_source_freshness_results
-         as
-        (
+    
 
+    merge into NBA.dbt_parker_elementary.dbt_source_freshness_results as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_source_freshness_results__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.source_freshness_execution_id = DBT_INTERNAL_DEST.source_freshness_execution_id
+            )
 
-    select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as source_freshness_execution_id
+    
+    when matched then update set
+        "SOURCE_FRESHNESS_EXECUTION_ID" = DBT_INTERNAL_SOURCE."SOURCE_FRESHNESS_EXECUTION_ID","UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","MAX_LOADED_AT" = DBT_INTERNAL_SOURCE."MAX_LOADED_AT","SNAPSHOTTED_AT" = DBT_INTERNAL_SOURCE."SNAPSHOTTED_AT","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","CREATED_AT" = DBT_INTERNAL_SOURCE."CREATED_AT","MAX_LOADED_AT_TIME_AGO_IN_S" = DBT_INTERNAL_SOURCE."MAX_LOADED_AT_TIME_AGO_IN_S","STATUS" = DBT_INTERNAL_SOURCE."STATUS","ERROR" = DBT_INTERNAL_SOURCE."ERROR","COMPILE_STARTED_AT" = DBT_INTERNAL_SOURCE."COMPILE_STARTED_AT","COMPILE_COMPLETED_AT" = DBT_INTERNAL_SOURCE."COMPILE_COMPLETED_AT","EXECUTE_STARTED_AT" = DBT_INTERNAL_SOURCE."EXECUTE_STARTED_AT","EXECUTE_COMPLETED_AT" = DBT_INTERNAL_SOURCE."EXECUTE_COMPLETED_AT","INVOCATION_ID" = DBT_INTERNAL_SOURCE."INVOCATION_ID","WARN_AFTER" = DBT_INTERNAL_SOURCE."WARN_AFTER","ERROR_AFTER" = DBT_INTERNAL_SOURCE."ERROR_AFTER","FILTER" = DBT_INTERNAL_SOURCE."FILTER"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as unique_id
+    when not matched then insert
+        ("SOURCE_FRESHNESS_EXECUTION_ID", "UNIQUE_ID", "MAX_LOADED_AT", "SNAPSHOTTED_AT", "GENERATED_AT", "CREATED_AT", "MAX_LOADED_AT_TIME_AGO_IN_S", "STATUS", "ERROR", "COMPILE_STARTED_AT", "COMPILE_COMPLETED_AT", "EXECUTE_STARTED_AT", "EXECUTE_COMPLETED_AT", "INVOCATION_ID", "WARN_AFTER", "ERROR_AFTER", "FILTER")
+    values
+        ("SOURCE_FRESHNESS_EXECUTION_ID", "UNIQUE_ID", "MAX_LOADED_AT", "SNAPSHOTTED_AT", "GENERATED_AT", "CREATED_AT", "MAX_LOADED_AT_TIME_AGO_IN_S", "STATUS", "ERROR", "COMPILE_STARTED_AT", "COMPILE_COMPLETED_AT", "EXECUTE_STARTED_AT", "EXECUTE_COMPLETED_AT", "INVOCATION_ID", "WARN_AFTER", "ERROR_AFTER", "FILTER")
 
-,
-                
-        cast('dummy_string' as varchar) as max_loaded_at
-
-,
-                
-        cast('dummy_string' as varchar) as snapshotted_at
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                cast('2091-02-17' as timestamp) as created_at
-
-,
-                
-        cast(123456789.99 as float) as max_loaded_at_time_ago_in_s
-
-,
-                
-        cast('dummy_string' as varchar) as status
-
-,
-                
-        cast('dummy_string' as varchar) as error
-
-,
-                
-        cast('dummy_string' as varchar) as compile_started_at
-
-,
-                
-        cast('dummy_string' as varchar) as compile_completed_at
-
-,
-                
-        cast('dummy_string' as varchar) as execute_started_at
-
-,
-                
-        cast('dummy_string' as varchar) as execute_completed_at
-
-,
-                
-        cast('dummy_string' as varchar) as invocation_id
-
-,
-                
-        cast('dummy_string' as varchar) as warn_after
-
-,
-                
-        cast('dummy_string' as varchar) as error_after
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as filter
-
-
-        ) as empty_table
-        where 1 = 0
-
-        );
-      
-  
+;
+    commit;

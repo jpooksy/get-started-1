@@ -1,124 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_tests
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as unique_id
+    merge into NBA.dbt_parker_elementary.dbt_tests as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_tests__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.unique_id = DBT_INTERNAL_DEST.unique_id
+            )
 
-,
-                
-        cast('dummy_string' as varchar) as database_name
+    
+    when matched then update set
+        "UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","DATABASE_NAME" = DBT_INTERNAL_SOURCE."DATABASE_NAME","SCHEMA_NAME" = DBT_INTERNAL_SOURCE."SCHEMA_NAME","NAME" = DBT_INTERNAL_SOURCE."NAME","SHORT_NAME" = DBT_INTERNAL_SOURCE."SHORT_NAME","ALIAS" = DBT_INTERNAL_SOURCE."ALIAS","TEST_COLUMN_NAME" = DBT_INTERNAL_SOURCE."TEST_COLUMN_NAME","SEVERITY" = DBT_INTERNAL_SOURCE."SEVERITY","WARN_IF" = DBT_INTERNAL_SOURCE."WARN_IF","ERROR_IF" = DBT_INTERNAL_SOURCE."ERROR_IF","TEST_PARAMS" = DBT_INTERNAL_SOURCE."TEST_PARAMS","TEST_NAMESPACE" = DBT_INTERNAL_SOURCE."TEST_NAMESPACE","TAGS" = DBT_INTERNAL_SOURCE."TAGS","MODEL_TAGS" = DBT_INTERNAL_SOURCE."MODEL_TAGS","MODEL_OWNERS" = DBT_INTERNAL_SOURCE."MODEL_OWNERS","META" = DBT_INTERNAL_SOURCE."META","DEPENDS_ON_MACROS" = DBT_INTERNAL_SOURCE."DEPENDS_ON_MACROS","DEPENDS_ON_NODES" = DBT_INTERNAL_SOURCE."DEPENDS_ON_NODES","PARENT_MODEL_UNIQUE_ID" = DBT_INTERNAL_SOURCE."PARENT_MODEL_UNIQUE_ID","DESCRIPTION" = DBT_INTERNAL_SOURCE."DESCRIPTION","PACKAGE_NAME" = DBT_INTERNAL_SOURCE."PACKAGE_NAME","TYPE" = DBT_INTERNAL_SOURCE."TYPE","ORIGINAL_PATH" = DBT_INTERNAL_SOURCE."ORIGINAL_PATH","PATH" = DBT_INTERNAL_SOURCE."PATH","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","METADATA_HASH" = DBT_INTERNAL_SOURCE."METADATA_HASH","QUALITY_DIMENSION" = DBT_INTERNAL_SOURCE."QUALITY_DIMENSION"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as schema_name
+    when not matched then insert
+        ("UNIQUE_ID", "DATABASE_NAME", "SCHEMA_NAME", "NAME", "SHORT_NAME", "ALIAS", "TEST_COLUMN_NAME", "SEVERITY", "WARN_IF", "ERROR_IF", "TEST_PARAMS", "TEST_NAMESPACE", "TAGS", "MODEL_TAGS", "MODEL_OWNERS", "META", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "PARENT_MODEL_UNIQUE_ID", "DESCRIPTION", "PACKAGE_NAME", "TYPE", "ORIGINAL_PATH", "PATH", "GENERATED_AT", "METADATA_HASH", "QUALITY_DIMENSION")
+    values
+        ("UNIQUE_ID", "DATABASE_NAME", "SCHEMA_NAME", "NAME", "SHORT_NAME", "ALIAS", "TEST_COLUMN_NAME", "SEVERITY", "WARN_IF", "ERROR_IF", "TEST_PARAMS", "TEST_NAMESPACE", "TAGS", "MODEL_TAGS", "MODEL_OWNERS", "META", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "PARENT_MODEL_UNIQUE_ID", "DESCRIPTION", "PACKAGE_NAME", "TYPE", "ORIGINAL_PATH", "PATH", "GENERATED_AT", "METADATA_HASH", "QUALITY_DIMENSION")
 
-,
-                
-        cast('dummy_string' as varchar) as name
-
-,
-                
-        cast('dummy_string' as varchar) as short_name
-
-,
-                
-        cast('dummy_string' as varchar) as alias
-
-,
-                
-        cast('dummy_string' as varchar) as test_column_name
-
-,
-                
-        cast('dummy_string' as varchar) as severity
-
-,
-                
-        cast('dummy_string' as varchar) as warn_if
-
-,
-                
-        cast('dummy_string' as varchar) as error_if
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as test_params
-
-,
-                
-        cast('dummy_string' as varchar) as test_namespace
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as model_tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as model_owners
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as meta
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_macros
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_nodes
-
-,
-                
-        cast('dummy_string' as varchar) as parent_model_unique_id
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as description
-
-,
-                
-        cast('dummy_string' as varchar) as package_name
-
-,
-                
-        cast('dummy_string' as varchar) as type
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as original_path
-
-,
-                
-        cast('dummy_string' as varchar) as path
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                
-        cast('dummy_string' as varchar) as metadata_hash
-
-,
-                
-        cast('dummy_string' as varchar) as quality_dimension
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;

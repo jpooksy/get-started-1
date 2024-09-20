@@ -1,96 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
+    
+        
+            
+            
+        
     
 
-        create or replace  table NBA.dbt_parker_elementary.dbt_exposures
-         as
-        (
+    
 
-select * from (
-            select
-            
-                
-        cast('dummy_string' as varchar) as unique_id
+    merge into NBA.dbt_parker_elementary.dbt_exposures as DBT_INTERNAL_DEST
+        using NBA.dbt_parker_elementary.dbt_exposures__dbt_tmp as DBT_INTERNAL_SOURCE
+        on (
+                DBT_INTERNAL_SOURCE.unique_id = DBT_INTERNAL_DEST.unique_id
+            )
 
-,
-                
-        cast('dummy_string' as varchar) as name
+    
+    when matched then update set
+        "UNIQUE_ID" = DBT_INTERNAL_SOURCE."UNIQUE_ID","NAME" = DBT_INTERNAL_SOURCE."NAME","MATURITY" = DBT_INTERNAL_SOURCE."MATURITY","TYPE" = DBT_INTERNAL_SOURCE."TYPE","OWNER_EMAIL" = DBT_INTERNAL_SOURCE."OWNER_EMAIL","OWNER_NAME" = DBT_INTERNAL_SOURCE."OWNER_NAME","URL" = DBT_INTERNAL_SOURCE."URL","DEPENDS_ON_MACROS" = DBT_INTERNAL_SOURCE."DEPENDS_ON_MACROS","DEPENDS_ON_NODES" = DBT_INTERNAL_SOURCE."DEPENDS_ON_NODES","DEPENDS_ON_COLUMNS" = DBT_INTERNAL_SOURCE."DEPENDS_ON_COLUMNS","DESCRIPTION" = DBT_INTERNAL_SOURCE."DESCRIPTION","TAGS" = DBT_INTERNAL_SOURCE."TAGS","META" = DBT_INTERNAL_SOURCE."META","PACKAGE_NAME" = DBT_INTERNAL_SOURCE."PACKAGE_NAME","ORIGINAL_PATH" = DBT_INTERNAL_SOURCE."ORIGINAL_PATH","PATH" = DBT_INTERNAL_SOURCE."PATH","GENERATED_AT" = DBT_INTERNAL_SOURCE."GENERATED_AT","METADATA_HASH" = DBT_INTERNAL_SOURCE."METADATA_HASH","LABEL" = DBT_INTERNAL_SOURCE."LABEL","RAW_QUERIES" = DBT_INTERNAL_SOURCE."RAW_QUERIES"
+    
 
-,
-                
-        cast('dummy_string' as varchar) as maturity
+    when not matched then insert
+        ("UNIQUE_ID", "NAME", "MATURITY", "TYPE", "OWNER_EMAIL", "OWNER_NAME", "URL", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "DEPENDS_ON_COLUMNS", "DESCRIPTION", "TAGS", "META", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "GENERATED_AT", "METADATA_HASH", "LABEL", "RAW_QUERIES")
+    values
+        ("UNIQUE_ID", "NAME", "MATURITY", "TYPE", "OWNER_EMAIL", "OWNER_NAME", "URL", "DEPENDS_ON_MACROS", "DEPENDS_ON_NODES", "DEPENDS_ON_COLUMNS", "DESCRIPTION", "TAGS", "META", "PACKAGE_NAME", "ORIGINAL_PATH", "PATH", "GENERATED_AT", "METADATA_HASH", "LABEL", "RAW_QUERIES")
 
-,
-                
-        cast('dummy_string' as varchar) as type
-
-,
-                
-        cast('dummy_string' as varchar) as owner_email
-
-,
-                
-        cast('dummy_string' as varchar) as owner_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as url
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_macros
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_nodes
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as depends_on_columns
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as description
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as tags
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as meta
-
-,
-                
-        cast('dummy_string' as varchar) as package_name
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as original_path
-
-,
-                
-        cast('dummy_string' as varchar) as path
-
-,
-                
-        cast('dummy_string' as varchar) as generated_at
-
-,
-                
-        cast('dummy_string' as varchar) as metadata_hash
-
-,
-                
-        cast('dummy_string' as varchar) as label
-
-,
-                
-        cast('this_is_just_a_long_dummy_string' as varchar) as raw_queries
-
-
-        ) as empty_table
-        where 1 = 0
-        );
-      
-  
+;
+    commit;
