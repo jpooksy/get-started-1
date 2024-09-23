@@ -2,6 +2,7 @@ version: 2
 models:
   - name: nba_player_game_logs
     tests:
+      - elementary.schema_changes
       - elementary.freshness_anomalies:
           timestamp_column: "LOADED_AT_DTTM"
           time_bucket:
