@@ -3,19 +3,78 @@ models:
   - name: nba_player_game_logs
     tests:
       - elementary.freshness_anomalies:
-          timestamp_column: "loaded_at_dttm"
-          time_bucket: 
+          timestamp_column: "LOADED_AT_DTTM"
+          time_bucket:
             period: day
             count: 1
-          detection_period: 
+          detection_period:
             period: day
-            count: 14
-          training_period: 
+            count: 360
+          training_period:
             period: day
-            count: 60
+            count: 360
           anomaly_sensitivity: 3
-          detection_delay: 
-            period: day 
+          detection_delay:
+            period: day
             count: 1
           config:
             severity: warn
+  - name: nba_games
+    columns:
+      - name: season_id
+        tests:
+          - not_null
+      - name: team_id
+        tests:
+          - not_null
+      - name: game_id
+        tests:
+          - unique
+          - not_null
+      - name: game_date
+        tests:
+          - not_null
+      - name: game_duration_mins
+        tests:
+          - not_null
+      - name: points
+        tests:
+          - not_null
+      - name: season
+        tests:
+          - not_null
+      - name: game_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["Regular Season", "Playoffs"]
+
+  - name: nba_teams
+    ## if no timestamp is configured, elementary will monitor without time filtering
+    tests:
+      - elementary.volume_anomalies:
+          tags: ["elementary"]
+      - elementary.all_columns_anomalies:
+          tags: ["elementary"]
+
+tests:
+  — elementary.freshness_anomalies:
+    timestamp_column: column name
+    where_expression: sql expression
+    anomaly_sensitivity: int
+    detection_period:
+      period: [hour | day | week | month]
+      count: int
+    training_period:
+      period: [hour | day | week | month]
+      count: int
+    time_bucket:
+      period: [hour | day | week | month]
+      count: int
+    detection_delay:
+      period: [hour | day | week | month]
+      count: int
+    ignore_small_changes:
+      spike_failure_percent_threshold: int
+      drop_failure_percent_threshold: int
+    anomaly_exclude_metrics: [SQL expression]
