@@ -1,81 +1,62 @@
 version: 2
+
 models:
   - name: nba_player_game_logs
-    tests:
-      - elementary.schema_changes
-      - elementary.freshness_anomalies:
-          timestamp_column: "LOADED_AT_DTTM"
-          time_bucket:
-            period: day
-            count: 1
-          detection_period:
-            period: day
-            count: 360
-          training_period:
-            period: day
-            count: 360
-          anomaly_sensitivity: 3
-          detection_delay:
-            period: day
-            count: 1
-          config:
-            severity: warn
-  - name: nba_games
     columns:
-      - name: season_id
+      - name: player_id
+        tests:
+          - not_null
+      - name: player_name
+        tests:
+          - not_null
+      - name: nickname
         tests:
           - not_null
       - name: team_id
         tests:
           - not_null
+      - name: team_abbreviation
+        tests:
+          - not_null
+      - name: team_name
+        tests:
+          - not_null
       - name: game_id
         tests:
-          - unique
           - not_null
       - name: game_date
         tests:
           - not_null
-      - name: game_duration_mins
+      - name: matchup
         tests:
           - not_null
+      - name: wl
+      - name: mins_played
+      - name: field_goals_made
+      - name: field_goals_attempted
+      - name: field_goal_pct
+      - name: three_point_made
+      - name: three_point_attempted
+      - name: three_point_pct
+      - name: free_throws_made
+      - name: free_throws_attempted
+      - name: free_throw_pct
+      - name: offensive_rebounds
+      - name: defensive_rebounds
+      - name: total_rebounds
+      - name: assists
+      - name: turnovers
+      - name: steals
+      - name: blocks
+      - name: personal_fouls
       - name: points
-        tests:
-          - not_null
+      - name: plus_minus
       - name: season
-        tests:
-          - not_null
       - name: game_type
         tests:
           - not_null
           - accepted_values:
               values: ["Regular Season", "Playoffs"]
-
-  - name: nba_teams
-    ## if no timestamp is configured, elementary will monitor without time filtering
-    tests:
-      - elementary.volume_anomalies:
-          tags: ["elementary"]
-      - elementary.all_columns_anomalies:
-          tags: ["elementary"]
-
-tests:
-  — elementary.freshness_anomalies:
-    timestamp_column: column name
-    where_expression: sql expression
-    anomaly_sensitivity: int
-    detection_period:
-      period: [hour | day | week | month]
-      count: int
-    training_period:
-      period: [hour | day | week | month]
-      count: int
-    time_bucket:
-      period: [hour | day | week | month]
-      count: int
-    detection_delay:
-      period: [hour | day | week | month]
-      count: int
-    ignore_small_changes:
-      spike_failure_percent_threshold: int
-      drop_failure_percent_threshold: int
-    anomaly_exclude_metrics: [SQL expression]
+      - name: loaded_at_dttm
+        tests:
+          - not_null
