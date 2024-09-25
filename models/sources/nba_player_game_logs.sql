@@ -40,12 +40,12 @@ renamed AS (
         season,
         game_type,
         loaded_at_dttm
+        , null as flag
     FROM 
         source
 )
 
 SELECT
-
     *
 FROM
     renamed
